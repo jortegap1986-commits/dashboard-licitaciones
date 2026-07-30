@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Compra Ágil RM — BRIORTCA SPA</title>
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#f4f6f9; --panel:#ffffff; --ink:#1b2432; --sub:#5b6779; --border:#e3e7ee;
+    --blue:#2563eb; --blue-l:#dbeafe;
+    --green:#16a34a; --green-l:#dcfce7;
+    --amber:#b45309; --amber-l:#fef3c7;
+    --orange:#c2410c; --orange-l:#ffedd5;
+    --red:#dc2626; --red-l:#fee2e2;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:14px; line-height:1.45;}
+  .wrap{max-width:1180px; margin:0 auto; padding:20px 20px 48px;}
+  header.top{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px; flex-wrap:wrap;}
+  header.top h1{font-size:21px; margin:0 0 4px;}
+  header.top p{margin:0; color:var(--sub); font-size:13px;}
+  .snapshot{background:var(--blue-l); color:#1e3a8a; border-radius:10px; padding:8px 14px; font-size:12.5px; font-weight:600; white-space:nowrap;}
+  .kpis{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:20px;}
+  .kpi{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);}
+  .kpi .label{font-size:11.5px; color:var(--sub); text-transform:uppercase; letter-spacing:.03em; margin-bottom:6px; font-weight:600;}
+  .kpi .value{font-size:22px; font-weight:700;}
+  .kpi .sub{font-size:11.5px; color:var(--sub); margin-top:2px;}
+  .grid2{display:grid; grid-template-columns:1.1fr .9fr; gap:14px; margin-bottom:16px;}
+  .panel{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow);}
+  .panel h2{font-size:14px; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+  .panel h2 .n{font-weight:400; color:var(--sub); font-size:12px;}
+  .bars{display:flex; flex-direction:column; gap:10px;}
+  .bar-row{display:grid; grid-template-columns:92px 1fr 78px; align-items:center; gap:10px;}
+  .bar-row .name{font-size:12.5px; font-weight:600;}
+  .bar-track{background:#eef1f6; border-radius:6px; height:20px; overflow:hidden; position:relative;}
+  .bar-fill{height:100%; border-radius:6px;}
+  .bar-row .count{font-size:12.5px; color:var(--sub); text-align:right; font-variant-numeric:tabular-nums;}
+  .hist{display:flex; align-items:flex-end; gap:14px; height:150px; padding-top:20px;}
+  .hist-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+  .hist-label-top{font-size:12px; font-weight:700; margin-bottom:4px;}
+  .hist-bar{width:100%; max-width:56px; border-radius:6px 6px 0 0;}
+  .hist-x{font-size:10.5px; color:var(--sub); margin-top:6px; text-align:center;}
+  .urgency-list{display:flex; flex-direction:column; gap:8px; margin-top:2px;}
+  .urg-item{display:flex; justify-content:space-between; gap:10px; font-size:12.5px; padding:8px 10px; border-radius:8px; background:#fafbfc; border:1px solid var(--border);}
+  .urg-item .t{font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:300px;}
+  .badge{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; white-space:nowrap;}
+  .badge.red{background:var(--red-l); color:var(--red);}
+  .badge.amber{background:var(--amber-l); color:var(--amber);}
+  .badge.green{background:var(--green-l); color:var(--green);}
+  .badge.grey{background:#eef1f6; color:var(--sub);}
+  .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+  .chip{border:1px solid var(--border); background:#fff; border-radius:999px; padding:6px 13px; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--sub); user-select:none; transition:all .12s;}
+  .chip.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .search{border:1px solid var(--border); border-radius:999px; padding:7px 14px; font-size:12.5px; min-width:220px; flex:1; max-width:300px; outline:none;}
+  .search:focus{border-color:var(--blue);}
+  .count-note{font-size:12px; color:var(--sub); margin-left:auto;}
+  table{width:100%; border-collapse:collapse; font-size:12.8px;}
+  thead th{text-align:left; padding:9px 10px; border-bottom:2px solid var(--border); color:var(--sub); font-size:11.5px; text-transform:uppercase; letter-spacing:.02em; cursor:pointer; white-space:nowrap;}
+  thead th:hover{color:var(--ink);}
+  tbody td{padding:10px 10px; border-bottom:1px solid var(--border); vertical-align:middle;}
+  tbody tr:hover{background:#fafbfc;}
+  .cat-tag{font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+  .cat-alimento{background:var(--green-l); color:var(--green);}
+  .cat-café{background:var(--amber-l); color:var(--amber);}
+  .cat-galletas{background:var(--orange-l); color:var(--orange);}
+  .cat-oficina{background:var(--blue-l); color:var(--blue);}
+  .titulo-cell{max-width:280px;}
+  .titulo-cell .tt{font-weight:600;}
+  .titulo-cell .org{color:var(--sub); font-size:11.5px; margin-top:1px;}
+  .comuna{font-weight:600; white-space:nowrap;}
+  .presupuesto{font-variant-numeric:tabular-nums; font-weight:700; text-align:right;}
+  .cotizar-btn{display:inline-block; background:var(--blue); color:#fff; text-decoration:none; padding:6px 13px; border-radius:8px; font-size:12px; font-weight:700; white-space:nowrap;}
+  .cotizar-btn:hover{background:#1d4ed8;}
+  footer{margin-top:22px; font-size:12px; color:var(--sub); border-top:1px solid var(--border); padding-top:14px;}
+  footer b{color:var(--ink);}
+  .legend-note{font-size:11.5px; color:var(--sub); margin-top:8px;}
+  @media (max-width:920px){ .kpis{grid-template-columns:repeat(2,1fr);} .grid2{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Oportunidades en Compra Ágil — Región Metropolitana</h1>
+      <p>BRIORTCA SPA · Alimento · Café · Galletas · Oficina — presupuesto ≤ $500.000 CLP, entrega en RM, estado "Publicada"</p>
+    </div>
+    <div class="snapshot" id="snapshotBadge">Datos levantados el 30-07-2026 · Solo RM</div>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h2>Oportunidades por categoría <span class="n">(cantidad)</span></h2>
+      <div class="bars" id="barsCategoria"></div>
+    </div>
+    <div class="panel">
+      <h2>Distribución por presupuesto <span class="n">(rango en CLP)</span></h2>
+      <div class="hist" id="histPresupuesto"></div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:16px;">
+    <h2>⏱ Cierran pronto <span class="n">(ordenadas por urgencia)</span></h2>
+    <div class="urgency-list" id="urgencyList"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Detalle de oportunidades <span class="n" id="tableCount"></span></h2>
+    <div class="controls" id="filterChips"></div>
+    <div class="controls">
+      <input class="search" id="searchBox" placeholder="Buscar por título, organismo, comuna o código…">
+      <span class="count-note" id="filteredNote"></span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th data-key="categoria">Categoría</th>
+            <th data-key="titulo">Producto / Título</th>
+            <th data-key="comuna">Comuna (RM)</th>
+            <th data-key="presupuesto" style="text-align:right;">Presupuesto</th>
+            <th data-key="cierre">Cierra</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>Cómo leer este dashboard:</b> oportunidades vigentes de Compra Ágil con <b>entrega en la Región Metropolitana</b> (dirección verificada ficha por ficha), presupuesto ≤ $500.000. Los plazos de cierre son muy cortos — este es un snapshot manual, no se actualiza solo. Los badges de urgencia usan la hora real de tu computador; las filas ya cerradas se marcan "Cerrada". Pídele a Claude "actualiza el dashboard" para una nueva pasada.</p>
+    <p class="legend-note"><b>Cobertura (pasada RM, 30-07-2026):</b> filtro por región=13 (Región Metropolitana) más verificación de la dirección de entrega en cada ficha. Resultados en RM: alimento (6 en RM, 0 dentro de presupuesto — el resto era alimento clínico/mascotas sobre $1.000.000), café/coffee (varias son "servicio de coffee break"/catering y se excluyeron por no ser compra de bienes), galletas (3), oficina (~75 en RM, 28 fichas abiertas). Se excluyeron 5807-133-COT26 y 1230861-86-COT26 (ya cotizadas).</p>
+    <p class="legend-note"><b>Ojo:</b> varias cierran hoy 30-07 en distintos horarios — verifica la hora antes de cotizar. Algunas van en 2º llamado (1431841-812, 1285526-37, 2792-552, 4704-314, 2721-341). La 5815-38 (mobiliario) exige <b>visita a terreno obligatoria</b>. En la 766175-7 conviene reconfirmar la dirección de entrega (la ficha renderizó campos vacíos).</p>
+    <p class="legend-note">El botón <b>Cotizar</b> te lleva directo a la ficha en Mercado Público — la publicación/envío de la cotización siempre la confirmas tú.</p>
+  </footer>
+
+</div>
+
+<script>
+const DATA = [
+  {codigo:"1431841-834-COT26", categoria:"café", titulo:"Té, café y endulzante — prevención violencia de género", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:300000, cierre:"2026-08-03T15:00:00"},
+  {codigo:"1431841-830-COT26", categoria:"café", titulo:"Alimentos: café, galletas, jugos, agua y otros", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:500000, cierre:"2026-07-31T15:00:00"},
+  {codigo:"1431841-812-COT26", categoria:"café", titulo:"Compra de bienes coffee break — Cementerio General", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:95000, cierre:"2026-07-31T16:58:00"},
+  {codigo:"1274277-101-COT26", categoria:"café", titulo:"Coffee para 50 personas — escuela de invierno", organismo:"Corp. Fomento Desarrollo Comunal La Granja", comuna:"La Granja", presupuesto:200000, cierre:"2026-07-30T10:00:00"},
+  {codigo:"1516-202-COT26", categoria:"galletas", titulo:"Insumos colaciones — Plan Abriendo Caminos", organismo:"Delegación Presidencial Prov. Cordillera", comuna:"Puente Alto", presupuesto:170000, cierre:"2026-07-30T16:00:00"},
+  {codigo:"1285526-37-COT26", categoria:"galletas", titulo:"Insumos de escritorio y alimentos — PADB", organismo:"Corp. Municipal de San José de Maipo", comuna:"San José de Maipo", presupuesto:100000, cierre:"2026-07-30T23:34:00"},
+  {codigo:"1075956-59-COT26", categoria:"alimento", titulo:"Bidones de agua purificada", organismo:"Depto. Control Financiero (CREDECAR)", comuna:"Santiago", presupuesto:400000, cierre:"2026-08-05T12:00:00"},
+  {codigo:"2279-492-COT26", categoria:"oficina", titulo:"SP 624 — Materiales de oficina", organismo:"I. Municipalidad de Pudahuel", comuna:"Pudahuel", presupuesto:200000, cierre:"2026-08-31T09:00:00"},
+  {codigo:"918434-188-COT26", categoria:"oficina", titulo:"Materiales de oficina — nivel central", organismo:"Min. de la Mujer y la Equidad de Género", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-05T10:30:00"},
+  {codigo:"4931-76-COT26", categoria:"oficina", titulo:"Soporte TV y percheros de pie para oficina", organismo:"Comisión Adm. Sistema de Créditos Est. Sup.", comuna:"Providencia", presupuesto:150000, cierre:"2026-07-31T09:00:00"},
+  {codigo:"2403-616-COT26", categoria:"oficina", titulo:"Insumos y materiales de oficina — Ecoparque", organismo:"I. Municipalidad de Peñalolén", comuna:"Peñalolén", presupuesto:500000, cierre:"2026-07-31T09:00:00"},
+  {codigo:"5709-32-COT26", categoria:"oficina", titulo:"WD 4322 — Audífonos con micrófono", organismo:"Universidad de Chile (FEN)", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-01T11:00:00"},
+  {codigo:"730920-12-COT26", categoria:"oficina", titulo:"Materiales de oficina — Juzgado Familia Melipilla", organismo:"Juzgado de Familia de Melipilla", comuna:"Melipilla", presupuesto:350000, cierre:"2026-07-30T22:00:00"},
+  {codigo:"766175-7-COT26", categoria:"oficina", titulo:"Materiales de oficina — 5° Tribunal Oral Penal", organismo:"5° Tribunal Juicio Oral en lo Penal Santiago", comuna:"Santiago", presupuesto:350000, cierre:"2026-07-31T08:00:00"},
+  {codigo:"5815-38-COT26", categoria:"oficina", titulo:"Mobiliario de oficina (visita a terreno obligatoria)", organismo:"Universidad de Chile (Fac. Cs. Químicas)", comuna:"Independencia", presupuesto:450000, cierre:"2026-08-03T08:30:00"},
+  {codigo:"2792-552-COT26", categoria:"oficina", titulo:"Materiales de oficina para talleres varios", organismo:"I. Municipalidad de Huechuraba", comuna:"Huechuraba", presupuesto:150000, cierre:"2026-07-31T10:00:00"},
+  {codigo:"4704-314-COT26", categoria:"oficina", titulo:"Artículos de oficina — rehabilitación red salud", organismo:"I. Municipalidad de El Monte", comuna:"El Monte", presupuesto:400000, cierre:"2026-08-01T09:31:00"},
+  {codigo:"1075956-68-COT26", categoria:"oficina", titulo:"Materiales de oficina (CREDECAR)", organismo:"Depto. Control Financiero", comuna:"Santiago", presupuesto:318749, cierre:"2026-08-11T12:00:00"},
+  {codigo:"1075956-60-COT26", categoria:"oficina", titulo:"Materiales de oficina", organismo:"Depto. Control Financiero", comuna:"Santiago", presupuesto:330831, cierre:"2026-08-06T10:00:00"},
+  {codigo:"2721-341-COT26", categoria:"oficina", titulo:"Materiales de oficina — apoyo a la crianza", organismo:"I. Municipalidad de Buin", comuna:"Buin", presupuesto:327884, cierre:"2026-07-30T13:29:00"},
+  {codigo:"1079866-233-COT26", categoria:"oficina", titulo:"Insumos computacionales — 24° Melipilla", organismo:"Carabineros — Compras Zona Santiago Oeste", comuna:"Melipilla", presupuesto:400000, cierre:"2026-07-30T15:00:00"},
+  {codigo:"5178-3997-COT26", categoria:"oficina", titulo:"Insumos de oficina SP 1060683", organismo:"Universidad de Chile (Fac. Medicina)", comuna:"Independencia", presupuesto:32000, cierre:"2026-07-30T21:40:00"},
+  {codigo:"5537-202-COT26", categoria:"oficina", titulo:"Materiales de oficina", organismo:"Universidad de Chile (IEAE)", comuna:"Ñuñoa", presupuesto:200000, cierre:"2026-07-30T16:50:00"},
+  {codigo:"5067-1834-COT26", categoria:"oficina", titulo:"Artículos de oficina — Escuela de Psicología", organismo:"Universidad de Santiago de Chile", comuna:"Estación Central", presupuesto:484089, cierre:"2026-07-30T16:35:00"},
+  {codigo:"1411-858-COT26", categoria:"oficina", titulo:"CCP Colina II — insumos de oficina", organismo:"Gendarmería — Dir. Regional Metropolitana", comuna:"Colina", presupuesto:380000, cierre:"2026-07-30T15:30:00"},
+  {codigo:"3444-119-COT26", categoria:"oficina", titulo:"Materiales de oficina — reserva militar", organismo:"Ejército de Chile (Reg. Logístico N°2)", comuna:"Colina", presupuesto:383033, cierre:"2026-07-30T15:00:00"},
+  {codigo:"2432-556-COT26", categoria:"oficina", titulo:"Materiales de oficina — promoción de salud", organismo:"I. Municipalidad de Estación Central", comuna:"Estación Central", presupuesto:398119, cierre:"2026-07-30T11:00:00"},
+];
+
+const CAT_COLOR = {alimento:"#16a34a", "café":"#b45309", galletas:"#c2410c", oficina:"#2563eb"};
+const CAT_LABEL = {alimento:"Alimento", "café":"Café", galletas:"Galletas", oficina:"Oficina"};
+const fmtCLP = n => "$" + n.toLocaleString("es-CL");
+const linkFor = c => `https://buscador.mercadopublico.cl/ficha?code=${c}`;
+
+function hoursLeft(iso){ return (new Date(iso) - new Date()) / 36e5; }
+function fmtCierre(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"}) + " " + d.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"});
+}
+function urgencyBadge(hrs){
+  if(hrs < 0) return {cls:"grey", txt:"Cerrada"};
+  if(hrs <= 24) return {cls:"red", txt:`${Math.max(1,Math.round(hrs))} h`};
+  if(hrs <= 48) return {cls:"amber", txt:`${Math.round(hrs)} h`};
+  return {cls:"green", txt:`${Math.round(hrs/24)} d`};
+}
+
+function renderKPIs(){
+  const total = DATA.length;
+  const vigentes = DATA.filter(d=>hoursLeft(d.cierre) >= 0);
+  const sum = vigentes.reduce((a,d)=>a+d.presupuesto,0);
+  const avg = vigentes.length ? Math.round(sum/vigentes.length) : 0;
+  const under24 = DATA.filter(d=>hoursLeft(d.cierre) >=0 && hoursLeft(d.cierre) <= 24).length;
+  const comunas = new Set(DATA.map(d=>d.comuna)).size;
+  const items = [
+    {label:"Oportunidades vigentes", value:vigentes.length, sub:`de ${total} en RM`},
+    {label:"Presupuesto total sumado", value:fmtCLP(sum), sub:"solo vigentes"},
+    {label:"Presupuesto promedio", value:fmtCLP(avg), sub:"por oportunidad vigente"},
+    {label:"Cierran en <24 h", value:under24, sub:"prioridad alta"},
+    {label:"Comunas RM", value:comunas, sub:"con oportunidades"},
+  ];
+  document.getElementById("kpis").innerHTML = items.map(i=>`
+    <div class="kpi"><div class="label">${i.label}</div><div class="value">${i.value}</div><div class="sub">${i.sub}</div></div>`).join("");
+}
+
+function renderBarsCategoria(){
+  const counts = {};
+  DATA.forEach(d=>counts[d.categoria]=(counts[d.categoria]||0)+1);
+  const max = Math.max(...Object.values(counts));
+  const order = ["alimento","café","galletas","oficina"];
+  document.getElementById("barsCategoria").innerHTML = order.filter(c=>counts[c]).map(c=>{
+    const n = counts[c]; const pct = Math.round((n/max)*100);
+    return `<div class="bar-row">
+      <div class="name" style="color:${CAT_COLOR[c]}">${CAT_LABEL[c]}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${CAT_COLOR[c]}"></div></div>
+      <div class="count">${n} oport.</div></div>`;
+  }).join("");
+}
+
+function renderHist(){
+  const ranges = [
+    {label:"< $150k", min:0, max:150000},
+    {label:"$150–300k", min:150000, max:300000},
+    {label:"$300–400k", min:300000, max:400000},
+    {label:"$400–500k", min:400000, max:500001},
+  ];
+  const counts = ranges.map(r => DATA.filter(d=>d.presupuesto>=r.min && d.presupuesto<r.max).length);
+  const max = Math.max(...counts,1);
+  document.getElementById("histPresupuesto").innerHTML = ranges.map((r,i)=>{
+    const h = Math.round((counts[i]/max)*100);
+    return `<div class="hist-col">
+      <div class="hist-label-top">${counts[i]}</div>
+      <div class="hist-bar" style="height:${Math.max(h,6)}%; background:linear-gradient(180deg,#3b82f6,#2563eb);"></div>
+      <div class="hist-x">${r.label}</div></div>`;
+  }).join("");
+}
+
+function renderUrgency(){
+  const upcoming = DATA.map(d=>({...d, hrs:hoursLeft(d.cierre)})).filter(d=>d.hrs >= 0).sort((a,b)=>a.hrs-b.hrs).slice(0,6);
+  document.getElementById("urgencyList").innerHTML = upcoming.map(d=>{
+    const b = urgencyBadge(d.hrs);
+    return `<div class="urg-item">
+      <span class="t" title="${d.titulo}">${d.titulo} — <span style="color:var(--sub); font-weight:400;">${d.comuna}</span></span>
+      <span style="display:flex; gap:8px; align-items:center;">
+        <span style="color:var(--sub); font-variant-numeric:tabular-nums;">${fmtCLP(d.presupuesto)}</span>
+        <span class="badge ${b.cls}">${b.txt}</span></span></div>`;
+  }).join("") || `<div class="urg-item">No hay oportunidades vigentes por cerrar.</div>`;
+}
+
+let activeCats = new Set(Object.keys(CAT_LABEL));
+let sortKey = "cierre", sortDir = 1, searchTerm = "";
+
+function renderChips(){
+  const chips = Object.keys(CAT_LABEL).map(c=>`<div class="chip active" data-cat="${c}">${CAT_LABEL[c]} (${DATA.filter(d=>d.categoria===c).length})</div>`).join("");
+  document.getElementById("filterChips").innerHTML = chips;
+  document.querySelectorAll(".chip[data-cat]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const cat = el.getAttribute("data-cat");
+      if(activeCats.has(cat)){ activeCats.delete(cat); el.classList.remove("active"); }
+      else { activeCats.add(cat); el.classList.add("active"); }
+      renderTable();
+    });
+  });
+}
+
+function renderTable(){
+  let rows = DATA.filter(d=>activeCats.has(d.categoria));
+  if(searchTerm){
+    const s = searchTerm.toLowerCase();
+    rows = rows.filter(d => d.titulo.toLowerCase().includes(s) || d.organismo.toLowerCase().includes(s) || d.comuna.toLowerCase().includes(s) || d.codigo.toLowerCase().includes(s));
+  }
+  rows.sort((a,b)=>{
+    let va=a[sortKey], vb=b[sortKey];
+    if(sortKey==="cierre"){ va=new Date(va); vb=new Date(vb); }
+    if(va<vb) return -1*sortDir; if(va>vb) return 1*sortDir; return 0;
+  });
+  document.getElementById("tbody").innerHTML = rows.map(d=>{
+    const b = urgencyBadge(hoursLeft(d.cierre));
+    return `<tr>
+      <td><span class="cat-tag cat-${d.categoria}">${CAT_LABEL[d.categoria]}</span></td>
+      <td class="titulo-cell"><div class="tt">${d.titulo}</div><div class="org">${d.organismo} · ${d.codigo}</div></td>
+      <td class="comuna">${d.comuna}</td>
+      <td class="presupuesto">${fmtCLP(d.presupuesto)}</td>
+      <td><div>${fmtCierre(d.cierre)}</div><span class="badge ${b.cls}" style="margin-top:3px; display:inline-block;">${b.txt}</span></td>
+      <td><a class="cotizar-btn" href="${linkFor(d.codigo)}" target="_blank" rel="noopener">Cotizar →</a></td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="6" style="text-align:center; color:var(--sub); padding:24px;">Sin resultados con estos filtros.</td></tr>`;
+  document.getElementById("tableCount").textContent = `(${rows.length} de ${DATA.length})`;
+  document.getElementById("filteredNote").textContent = searchTerm ? `Filtrando por "${searchTerm}"` : "";
+}
+
+document.querySelectorAll("thead th[data-key]").forEach(th=>{
+  th.addEventListener("click", ()=>{
+    const key = th.getAttribute("data-key");
+    if(sortKey===key) sortDir *= -1; else { sortKey = key; sortDir = 1; }
+    renderTable();
+  });
+});
+document.getElementById("searchBox").addEventListener("input", (e)=>{ searchTerm = e.target.value.trim(); renderTable(); });
+
+renderKPIs(); renderBarsCategoria(); renderHist(); renderUrgency(); renderChips(); renderTable();
+</script>
+</body>
+</html>
