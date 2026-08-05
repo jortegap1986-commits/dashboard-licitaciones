@@ -219,6 +219,7 @@ const FAM = {
 // Licitaciones postuladas (sembradas con las 4 ya cotizadas + sus productos reales)
 const LIC_SEED = [
  {codigo:"1431841-812-COT26", titulo:"Coffee break — Cementerio General", cliente:"Municipalidad de Recoleta — Cementerio General", comuna:"Recoleta", direccion:"Cementerio General, Recoleta", montoOfertado:87344, fecha:"31-07-2026",
+  res:{estado:"Desierta", cargada:false, notas:"DESIERTA: 0 oferentes en ambos llamados (nadie ofertó, tampoco nosotros). El municipio hará un nuevo llamado — oportunidad clara de re-postular, ya tenemos la cotización armada."},
   items:[
    {p:"Té Ceylán 100 bolsas", c:1, f:"Café/Té", w:0.2},
    {p:"Azúcar 1 kg", c:1, f:"Secos pesados", w:1.0},
@@ -233,7 +234,9 @@ const LIC_SEED = [
    {p:"Servilletas cóctel 300 un", c:1, f:"Desechables", w:0.3},
    {p:"Bandejas + blondas", c:1, f:"Desechables", w:0.5},
   ]},
- {codigo:"1431841-834-COT26", titulo:"Té, café y endulzante (Prev. VVG)", cliente:"Municipalidad de Recoleta — Seguridad Humana", comuna:"Recoleta", direccion:"Av. Dorsal 1099, Recoleta", montoOfertado:212003, fecha:"30-07-2026",
+ {codigo:"1431841-834-COT26", titulo:"Té, café y endulzante (Prev. VVG)", cliente:"Municipalidad de Recoleta — Seguridad Humana", comuna:"Recoleta", direccion:"Av. Dorsal 1099, Recoleta", montoOfertado:186795, fecha:"30-07-2026",
+  res:{estado:"Ganada", cargada:true, empresa:"BRIORTCA SPA (nosotros)", montoAdj:186795, notas:"GANADA por BRIORTCA a $186.795 (precio total más bajo). Se emitió proveedor seleccionado. ¡A ejecutar la hoja de ruta!"},
+  competidores:[{e:"BRIORTCA SPA (nosotros)", m:186795, win:true},{e:"BUY ME SPA", m:354620},{e:"COMERCIALIZADORA C & S SPA", m:396000}],
   items:[
    {p:"Jugo Andina 1,5 L", c:18, f:"Líquidos", w:1.5},
    {p:"Jugo caja (pack 6)", c:16, f:"Líquidos", w:1.2},
@@ -254,11 +257,14 @@ const LIC_SEED = [
    {p:"Gomitas 100 g", c:2, f:"Frágiles", w:0.1},
   ]},
  {codigo:"1230861-86-COT26", titulo:"Coffee talleres deportivos", cliente:"Corp. Municipal del Deporte de Quinta Normal", comuna:"Quinta Normal", direccion:"Nueva Imperial 4497, Quinta Normal", montoOfertado:369257, fecha:"29-07-2026",
+  res:{estado:"Perdida", cargada:false, empresa:"FLEXYCOMPRAS SPA", montoAdj:194565, causasSel:[1,6], notas:"NO participamos. Ganó FLEXYCOMPRAS a $194.565 — y NO por el precio más bajo (el más barato fue PUDU $161.840), sino por cumplir mejor la ficha técnica e imágenes que exigía la licitación. Nuestra cotización armada ($369k) estaba muy por sobre el mercado: hay que bajar margen y priorizar la ficha técnica."},
+  competidores:[{e:"PUDU GREEN VITAMIN SPA", m:161840},{e:"FLEXYCOMPRAS SPA", m:194565, win:true},{e:"COMERCIAL MSV SPA", m:196350},{e:"OPEL MARKET SPA", m:223125},{e:"DISTRIBUIDORA NACIONAL", m:430007}],
   items:[
    {p:"Galletas surtido 400 g", c:150, f:"Frágiles", w:0.4},
    {p:"Galletas soda 190 g", c:50, f:"Frágiles", w:0.19},
   ]},
  {codigo:"5807-133-COT26", titulo:"Galletas y café (surtido)", cliente:"Universidad de Chile — Cs. Químicas y Farmacéuticas", comuna:"Independencia", direccion:"Dr. Carlos Lorca Tobar 964, Independencia", montoOfertado:467689, fecha:"22-07-2026",
+  res:{estado:"En evaluación", cargada:false, notas:"El buscador público de Mercado Público ya no muestra esta ficha (proceso antiguo, cerró el 23-07). Revísala directamente en tu cuenta de Mercado Público para ver el resultado."},
   items:[
    {p:"Galletas Gretel choc 85 g", c:70, f:"Frágiles", w:0.085},
    {p:"Choco chips 125 g", c:70, f:"Frágiles", w:0.125},
@@ -283,7 +289,11 @@ const store = {
   get(k, def){ try{ const v=localStorage.getItem('brc_'+k); return v!=null?JSON.parse(v):(MEM[k]!==undefined?MEM[k]:def);}catch(e){ return MEM[k]!==undefined?MEM[k]:def; } },
   set(k, v){ try{ localStorage.setItem('brc_'+k, JSON.stringify(v)); }catch(e){ MEM[k]=v; } }
 };
-function licState(cod){ return store.get('lic_'+cod, {estado:"En evaluación", cargada:false, empresa:"", montoAdj:"", causa:"", notas:"", avance:{}, picks:{}}); }
+function licState(cod){
+  const seed=LIC_SEED.find(l=>l.codigo===cod); const d=(seed&&seed.res)||{};
+  const base={estado:d.estado||"En evaluación", cargada:d.cargada||false, empresa:d.empresa||"", montoAdj:d.montoAdj||"", causa:"", notas:d.notas||"", causasSel:d.causasSel||[], avance:{}, picks:{}};
+  return store.get('lic_'+cod, base);
+}
 function saveLic(cod, st){ store.set('lic_'+cod, st); }
 
 /* ============ HELPERS ============ */
@@ -336,10 +346,10 @@ document.getElementById("searchBox").addEventListener("input",e=>{searchTerm=e.t
 
 /* ============ VISTA MIS LICITACIONES ============ */
 function renderLicKpis(){
-  let gan=0,per=0,ev=0,cargadas=0,montoGan=0;
-  LIC_SEED.forEach(l=>{const s=licState(l.codigo); if(s.cargada)cargadas++; if(s.estado==="Ganada"){gan++;montoGan+=l.montoOfertado;} else if(s.estado==="Perdida")per++; else ev++;});
+  let gan=0,per=0,des=0,cargadas=0,montoGan=0;
+  LIC_SEED.forEach(l=>{const s=licState(l.codigo); if(s.cargada)cargadas++; if(s.estado==="Ganada"){gan++;montoGan+=l.montoOfertado;} else if(s.estado==="Perdida")per++; else if(s.estado==="Desierta")des++;});
   const tasa = (gan+per)>0 ? Math.round(gan/(gan+per)*100) : 0;
-  const it=[["Cotizaciones armadas",LIC_SEED.length,"en el archivo"],["Cargadas en Mercado Público",cargadas,`de ${LIC_SEED.length}`],["Ganadas / Perdidas",gan+" / "+per,"según Mercado Público"],["Tasa de éxito",tasa+"%",`sobre ${gan+per} resueltas`],["Venta ganada",fmtCLP(montoGan),"suma de adjudicadas"]];
+  const it=[["Cotizaciones armadas",LIC_SEED.length,"en el archivo"],["Ganadas",gan,"adjudicadas a nosotros"],["Perdidas",per,"para analizar"],["Desiertas",des,"re-postulables"],["Venta ganada",fmtCLP(montoGan)+" · "+tasa+"%",`tasa de éxito (${gan}/${gan+per})`]];
   document.getElementById("licKpis").innerHTML=it.map(i=>`<div class="kpi"><div class="label">${i[0]}</div><div class="value">${i[1]}</div><div class="sub">${i[2]}</div></div>`).join("");
 }
 function estadoPill(e){ const m={"En evaluación":"e-post",Ganada:"e-gan",Perdida:"e-per"}; return `<span class="estado-pill ${m[e]||'e-post'}">${e}</span>`; }
@@ -354,7 +364,8 @@ function renderLicList(){
     return `<div class="lic-card">
       <div class="lic-head">
         <div><div class="tt">${esc(l.titulo)} ${estadoPill(s.estado)} ${cargaBadge}</div>
-        <div class="meta">${esc(l.cliente)} · ${l.comuna} · ${l.codigo} · ${nItems} unidades · Ofertado ${fmtCLP(l.montoOfertado)}</div></div>
+        <div class="meta">${esc(l.cliente)} · ${l.comuna} · ${l.codigo} · ${nItems} unidades · Ofertado ${fmtCLP(l.montoOfertado)}</div>
+        ${s.notas?`<div class="meta" style="margin-top:5px;color:#334155;max-width:640px;">📌 ${esc(s.notas)}</div>`:""}</div>
         <div>${action}</div>
       </div>
       <div class="lic-row">
@@ -368,6 +379,7 @@ function renderLicList(){
             <option ${s.estado==="En evaluación"?"selected":""}>En evaluación</option>
             <option ${s.estado==="Ganada"?"selected":""}>Ganada</option>
             <option ${s.estado==="Perdida"?"selected":""}>Perdida</option>
+            <option ${s.estado==="Desierta"?"selected":""}>Desierta</option>
           </select></div>
         <div class="field"><label>Empresa adjudicada</label>
           <input type="text" style="min-width:220px;" placeholder="Quién ganó (si perdimos)" value="${esc(s.empresa||"")}" onchange="setField('${l.codigo}','empresa',this.value)"></div>
@@ -423,6 +435,7 @@ function openRoadmap(cod){
     <button class="x" onclick="closeOverlay()">✕</button>
     <h2>🚚 Hoja de ruta — ${esc(l.titulo)}</h2>
     <div class="sub">${esc(l.cliente)} · ${l.codigo} · Entrega: ${esc(l.direccion)}</div>
+    ${l.competidores?`<div class="diag win">🏆 <b>Adjudicada a BRIORTCA</b> a ${fmtCLP(l.montoOfertado)} — le ganamos a ${l.competidores.filter(c=>!c.win).length} competidor(es).</div>${compBlock(l)}`:""}
     <div class="prog"><div style="width:${prog}%"></div></div>
     <div class="steps">${stepHtml}</div>
     <div class="sec-title">1 · Picking en establecimientos <span style="font-weight:400;color:var(--sub)">(marca lo comprado)</span></div>
@@ -459,6 +472,11 @@ function printLabels(cod){
 
 /* ============ ANÁLISIS DE PÉRDIDA (PERDIDAS) ============ */
 const CAUSAS=["Precio: nuestra oferta fue más alta que el ganador","Formato/gramaje: algún producto no cumplió lo pedido","Documentación: faltó anexo, declaración jurada o formulario","Plazo de entrega ofrecido mayor al requerido","Giro comercial no acorde al requerimiento","No alcanzamos a enviar antes del cierre","Otro (ver notas)"];
+function compBlock(l){
+  if(!l.competidores||!l.competidores.length) return "";
+  const rows=[...l.competidores].sort((a,b)=>a.m-b.m).map((c,i)=>`<div class="kv" style="${c.win?'font-weight:800;color:var(--green)':''}"><b>${i+1}. ${esc(c.e)}</b> ${fmtCLP(c.m)} ${c.win?'· ✅ adjudicado':''}</div>`).join("");
+  return `<div class="sec-title">Ranking de ofertas (según Mercado Público)</div>${rows}`;
+}
 function openLoss(cod){
   const l=licByCode(cod), s=licState(cod);
   const nuestro=l.montoOfertado, ganador=Number(s.montoAdj)||0;
@@ -480,6 +498,7 @@ function openLoss(cod){
     <div class="kv"><b>Monto adjudicado</b> ${ganador>0?fmtCLP(ganador):"— (complétalo en la tarjeta)"}</div>
     <div class="kv"><b>Diferencia</b> ${dif!=null?fmtCLP(dif)+" ("+difPct+"% vs ganador)":"—"}</div>
     <div class="diag">${diag}</div>
+    ${compBlock(l)}
     <div class="sec-title">¿Dónde nos caímos? <span style="font-weight:400;color:var(--sub)">(marca lo que aplique)</span></div>
     <div class="cause-list">${causesHtml}</div>
     <div class="sec-title">Notas / lecciones para la próxima</div>
