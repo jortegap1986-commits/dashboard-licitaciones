@@ -88,7 +88,7 @@
       <h1>Oportunidades en Compra Ágil — Región Metropolitana</h1>
       <p>BRIORTCA SPA · Alimento · Café · Galletas · Oficina — presupuesto ≤ $500.000 CLP, entrega en RM, estado "Publicada"</p>
     </div>
-    <div class="snapshot" id="snapshotBadge">Datos levantados el 30-07-2026 · Solo RM</div>
+    <div class="snapshot" id="snapshotBadge">Datos levantados el 05-08-2026 · Solo RM</div>
   </header>
 
   <div class="kpis" id="kpis"></div>
@@ -135,8 +135,8 @@
 
   <footer>
     <p><b>Cómo leer este dashboard:</b> oportunidades vigentes de Compra Ágil con <b>entrega en la Región Metropolitana</b> (dirección verificada ficha por ficha), presupuesto ≤ $500.000. Los plazos de cierre son muy cortos — este es un snapshot manual, no se actualiza solo. Los badges de urgencia usan la hora real de tu computador; las filas ya cerradas se marcan "Cerrada". Pídele a Claude "actualiza el dashboard" para una nueva pasada.</p>
-    <p class="legend-note"><b>Cobertura (pasada RM, 30-07-2026):</b> filtro por región=13 (Región Metropolitana) más verificación de la dirección de entrega en cada ficha. Resultados en RM: alimento (6 en RM, 0 dentro de presupuesto — el resto era alimento clínico/mascotas sobre $1.000.000), café/coffee (varias son "servicio de coffee break"/catering y se excluyeron por no ser compra de bienes), galletas (3), oficina (~75 en RM, 28 fichas abiertas). Se excluyeron 5807-133-COT26 y 1230861-86-COT26 (ya cotizadas).</p>
-    <p class="legend-note"><b>Ojo:</b> varias cierran hoy 30-07 en distintos horarios — verifica la hora antes de cotizar. Algunas van en 2º llamado (1431841-812, 1285526-37, 2792-552, 4704-314, 2721-341). La 5815-38 (mobiliario) exige <b>visita a terreno obligatoria</b>. En la 766175-7 conviene reconfirmar la dirección de entrega (la ficha renderizó campos vacíos).</p>
+    <p class="legend-note"><b>Cobertura (pasada RM, 05-08-2026):</b> filtro región=13 + verificación de dirección en cada ficha. Resultados: alimento (4, sólo medicamentos sobre presupuesto → 1 rescatado vía "colación"), café/coffee (varias son servicio de catering, excluidas), galletas (candidatas revisadas), oficina (86 resultados, se revisó la 1ª página / 15 ítems por relevancia — probablemente hay más sin revisar). Se excluyeron las ya cotizadas: 5807-133, 1230861-86, 1431841-834, 1431841-812.</p>
+    <p class="legend-note"><b>Ojo:</b> varias cierran hoy 05-08 en la tarde (2296-450 17:40, 2674-636 15:30, 1057491-1525 14:05) — verifica la hora. Las de USACH (564162-743) y Orquestas (546437-179) van en 2º llamado. Confirma vigencia en la ficha antes de cotizar.</p>
     <p class="legend-note">El botón <b>Cotizar</b> te lleva directo a la ficha en Mercado Público — la publicación/envío de la cotización siempre la confirmas tú.</p>
   </footer>
 
@@ -144,33 +144,16 @@
 
 <script>
 const DATA = [
-  {codigo:"1431841-834-COT26", categoria:"café", titulo:"Té, café y endulzante — prevención violencia de género", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:300000, cierre:"2026-08-03T15:00:00"},
-  {codigo:"1431841-830-COT26", categoria:"café", titulo:"Alimentos: café, galletas, jugos, agua y otros", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:500000, cierre:"2026-07-31T15:00:00"},
-  {codigo:"1431841-812-COT26", categoria:"café", titulo:"Compra de bienes coffee break — Cementerio General", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:95000, cierre:"2026-07-31T16:58:00"},
-  {codigo:"1274277-101-COT26", categoria:"café", titulo:"Coffee para 50 personas — escuela de invierno", organismo:"Corp. Fomento Desarrollo Comunal La Granja", comuna:"La Granja", presupuesto:200000, cierre:"2026-07-30T10:00:00"},
-  {codigo:"1516-202-COT26", categoria:"galletas", titulo:"Insumos colaciones — Plan Abriendo Caminos", organismo:"Delegación Presidencial Prov. Cordillera", comuna:"Puente Alto", presupuesto:170000, cierre:"2026-07-30T16:00:00"},
-  {codigo:"1285526-37-COT26", categoria:"galletas", titulo:"Insumos de escritorio y alimentos — PADB", organismo:"Corp. Municipal de San José de Maipo", comuna:"San José de Maipo", presupuesto:100000, cierre:"2026-07-30T23:34:00"},
-  {codigo:"1075956-59-COT26", categoria:"alimento", titulo:"Bidones de agua purificada", organismo:"Depto. Control Financiero (CREDECAR)", comuna:"Santiago", presupuesto:400000, cierre:"2026-08-05T12:00:00"},
-  {codigo:"2279-492-COT26", categoria:"oficina", titulo:"SP 624 — Materiales de oficina", organismo:"I. Municipalidad de Pudahuel", comuna:"Pudahuel", presupuesto:200000, cierre:"2026-08-31T09:00:00"},
-  {codigo:"918434-188-COT26", categoria:"oficina", titulo:"Materiales de oficina — nivel central", organismo:"Min. de la Mujer y la Equidad de Género", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-05T10:30:00"},
-  {codigo:"4931-76-COT26", categoria:"oficina", titulo:"Soporte TV y percheros de pie para oficina", organismo:"Comisión Adm. Sistema de Créditos Est. Sup.", comuna:"Providencia", presupuesto:150000, cierre:"2026-07-31T09:00:00"},
-  {codigo:"2403-616-COT26", categoria:"oficina", titulo:"Insumos y materiales de oficina — Ecoparque", organismo:"I. Municipalidad de Peñalolén", comuna:"Peñalolén", presupuesto:500000, cierre:"2026-07-31T09:00:00"},
-  {codigo:"5709-32-COT26", categoria:"oficina", titulo:"WD 4322 — Audífonos con micrófono", organismo:"Universidad de Chile (FEN)", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-01T11:00:00"},
-  {codigo:"730920-12-COT26", categoria:"oficina", titulo:"Materiales de oficina — Juzgado Familia Melipilla", organismo:"Juzgado de Familia de Melipilla", comuna:"Melipilla", presupuesto:350000, cierre:"2026-07-30T22:00:00"},
-  {codigo:"766175-7-COT26", categoria:"oficina", titulo:"Materiales de oficina — 5° Tribunal Oral Penal", organismo:"5° Tribunal Juicio Oral en lo Penal Santiago", comuna:"Santiago", presupuesto:350000, cierre:"2026-07-31T08:00:00"},
-  {codigo:"5815-38-COT26", categoria:"oficina", titulo:"Mobiliario de oficina (visita a terreno obligatoria)", organismo:"Universidad de Chile (Fac. Cs. Químicas)", comuna:"Independencia", presupuesto:450000, cierre:"2026-08-03T08:30:00"},
-  {codigo:"2792-552-COT26", categoria:"oficina", titulo:"Materiales de oficina para talleres varios", organismo:"I. Municipalidad de Huechuraba", comuna:"Huechuraba", presupuesto:150000, cierre:"2026-07-31T10:00:00"},
-  {codigo:"4704-314-COT26", categoria:"oficina", titulo:"Artículos de oficina — rehabilitación red salud", organismo:"I. Municipalidad de El Monte", comuna:"El Monte", presupuesto:400000, cierre:"2026-08-01T09:31:00"},
-  {codigo:"1075956-68-COT26", categoria:"oficina", titulo:"Materiales de oficina (CREDECAR)", organismo:"Depto. Control Financiero", comuna:"Santiago", presupuesto:318749, cierre:"2026-08-11T12:00:00"},
-  {codigo:"1075956-60-COT26", categoria:"oficina", titulo:"Materiales de oficina", organismo:"Depto. Control Financiero", comuna:"Santiago", presupuesto:330831, cierre:"2026-08-06T10:00:00"},
-  {codigo:"2721-341-COT26", categoria:"oficina", titulo:"Materiales de oficina — apoyo a la crianza", organismo:"I. Municipalidad de Buin", comuna:"Buin", presupuesto:327884, cierre:"2026-07-30T13:29:00"},
-  {codigo:"1079866-233-COT26", categoria:"oficina", titulo:"Insumos computacionales — 24° Melipilla", organismo:"Carabineros — Compras Zona Santiago Oeste", comuna:"Melipilla", presupuesto:400000, cierre:"2026-07-30T15:00:00"},
-  {codigo:"5178-3997-COT26", categoria:"oficina", titulo:"Insumos de oficina SP 1060683", organismo:"Universidad de Chile (Fac. Medicina)", comuna:"Independencia", presupuesto:32000, cierre:"2026-07-30T21:40:00"},
-  {codigo:"5537-202-COT26", categoria:"oficina", titulo:"Materiales de oficina", organismo:"Universidad de Chile (IEAE)", comuna:"Ñuñoa", presupuesto:200000, cierre:"2026-07-30T16:50:00"},
-  {codigo:"5067-1834-COT26", categoria:"oficina", titulo:"Artículos de oficina — Escuela de Psicología", organismo:"Universidad de Santiago de Chile", comuna:"Estación Central", presupuesto:484089, cierre:"2026-07-30T16:35:00"},
-  {codigo:"1411-858-COT26", categoria:"oficina", titulo:"CCP Colina II — insumos de oficina", organismo:"Gendarmería — Dir. Regional Metropolitana", comuna:"Colina", presupuesto:380000, cierre:"2026-07-30T15:30:00"},
-  {codigo:"3444-119-COT26", categoria:"oficina", titulo:"Materiales de oficina — reserva militar", organismo:"Ejército de Chile (Reg. Logístico N°2)", comuna:"Colina", presupuesto:383033, cierre:"2026-07-30T15:00:00"},
-  {codigo:"2432-556-COT26", categoria:"oficina", titulo:"Materiales de oficina — promoción de salud", organismo:"I. Municipalidad de Estación Central", comuna:"Estación Central", presupuesto:398119, cierre:"2026-07-30T11:00:00"},
+  {codigo:"1431841-864-COT26", categoria:"galletas", titulo:"Alimentos: galletas dulces, té, café y otros (DISEHU)", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:500000, cierre:"2026-08-07T09:30:00"},
+  {codigo:"5911-90-COT26", categoria:"café", titulo:"Café (25 kg café molido)", organismo:"Tribunal Constitucional", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-07T09:00:00"},
+  {codigo:"5542-97-COT26", categoria:"café", titulo:"Productos coffee break DGF agosto (café, jugos, galletas, azúcar)", organismo:"Universidad de Chile — FCFM Geofísica", comuna:"Santiago", presupuesto:270000, cierre:"2026-08-06T10:00:00"},
+  {codigo:"564162-743-COT26", categoria:"café", titulo:"Insumos reuniones: café, azúcar, galletas de chocolate y té", organismo:"Universidad de Santiago de Chile", comuna:"Estación Central", presupuesto:134614, cierre:"2026-08-06T10:11:00"},
+  {codigo:"546437-179-COT26", categoria:"alimento", titulo:"Jugos de colación — Escuela de Orquestas", organismo:"Fundación Nacional de Orquestas", comuna:"Ñuñoa", presupuesto:260000, cierre:"2026-08-07T09:47:00"},
+  {codigo:"647431-35-COT26", categoria:"oficina", titulo:"Elementos de oficina", organismo:"Ejército de Chile", comuna:"Santiago", presupuesto:426000, cierre:"2026-08-06T16:00:00"},
+  {codigo:"2412-373-COT26", categoria:"oficina", titulo:"Materiales de oficina (Exp. N°13683)", organismo:"I. Municipalidad de Lo Prado", comuna:"Lo Prado", presupuesto:90000, cierre:"2026-08-06T09:01:00"},
+  {codigo:"2296-450-COT26", categoria:"oficina", titulo:"Adquisición de muebles para oficina", organismo:"I. Municipalidad de Conchalí", comuna:"Conchalí", presupuesto:500000, cierre:"2026-08-05T17:40:00"},
+  {codigo:"2674-636-COT26", categoria:"oficina", titulo:"Adquisición de materiales de oficina", organismo:"I. Municipalidad de Melipilla", comuna:"Melipilla", presupuesto:240000, cierre:"2026-08-05T15:30:00"},
+  {codigo:"1057491-1525-COT26", categoria:"oficina", titulo:"Adquisición de escritorio de oficina", organismo:"Hospital Luis Calvo Mackenna", comuna:"Providencia", presupuesto:350000, cierre:"2026-08-05T14:05:00"},
 ];
 
 const CAT_COLOR = {alimento:"#16a34a", "café":"#b45309", galletas:"#c2410c", oficina:"#2563eb"};
