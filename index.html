@@ -141,7 +141,7 @@
       <h1>BRIORTCA SPA — Panel de Compra Ágil y Operación</h1>
       <p>Oportunidades RM · Registro de licitaciones · Picking, consolidación de cajas y avance</p>
     </div>
-    <div class="snapshot" id="snapshotBadge">Oportunidades: 05-08-2026 · Solo RM</div>
+    <div class="snapshot" id="snapshotBadge">Oportunidades: 07-08-2026 · Solo RM</div>
   </header>
 
   <div class="tabs">
@@ -194,16 +194,21 @@
 <script>
 /* ================= DATOS ================= */
 const OPPS = [
-  {codigo:"1431841-864-COT26", categoria:"galletas", titulo:"Alimentos: galletas dulces, té, café y otros (DISEHU)", organismo:"I. Municipalidad de Recoleta", comuna:"Recoleta", presupuesto:500000, cierre:"2026-08-07T09:30:00"},
-  {codigo:"5911-90-COT26", categoria:"café", titulo:"Café (25 kg café molido)", organismo:"Tribunal Constitucional", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-07T09:00:00"},
-  {codigo:"5542-97-COT26", categoria:"café", titulo:"Productos coffee break DGF agosto (café, jugos, galletas)", organismo:"Universidad de Chile — FCFM Geofísica", comuna:"Santiago", presupuesto:270000, cierre:"2026-08-06T10:00:00"},
-  {codigo:"564162-743-COT26", categoria:"café", titulo:"Insumos reuniones: café, azúcar, galletas y té", organismo:"Universidad de Santiago de Chile", comuna:"Estación Central", presupuesto:134614, cierre:"2026-08-06T10:11:00"},
-  {codigo:"546437-179-COT26", categoria:"alimento", titulo:"Jugos de colación — Escuela de Orquestas", organismo:"Fundación Nacional de Orquestas", comuna:"Ñuñoa", presupuesto:260000, cierre:"2026-08-07T09:47:00"},
-  {codigo:"647431-35-COT26", categoria:"oficina", titulo:"Elementos de oficina", organismo:"Ejército de Chile", comuna:"Santiago", presupuesto:426000, cierre:"2026-08-06T16:00:00"},
-  {codigo:"2412-373-COT26", categoria:"oficina", titulo:"Materiales de oficina (Exp. N°13683)", organismo:"I. Municipalidad de Lo Prado", comuna:"Lo Prado", presupuesto:90000, cierre:"2026-08-06T09:01:00"},
-  {codigo:"2296-450-COT26", categoria:"oficina", titulo:"Adquisición de muebles para oficina", organismo:"I. Municipalidad de Conchalí", comuna:"Conchalí", presupuesto:500000, cierre:"2026-08-05T17:40:00"},
-  {codigo:"2674-636-COT26", categoria:"oficina", titulo:"Adquisición de materiales de oficina", organismo:"I. Municipalidad de Melipilla", comuna:"Melipilla", presupuesto:240000, cierre:"2026-08-05T15:30:00"},
-  {codigo:"1057491-1525-COT26", categoria:"oficina", titulo:"Adquisición de escritorio de oficina", organismo:"Hospital Luis Calvo Mackenna", comuna:"Providencia", presupuesto:350000, cierre:"2026-08-05T14:05:00"},
+  {codigo:"612-165-COT26", categoria:"alimento", titulo:"Levadura seca y azúcar granulada", organismo:"Servicio Agrícola y Ganadero (SAG)", comuna:"Santiago", presupuesto:100000, cierre:"2026-08-07T11:00:00"},
+  {codigo:"3877-410-COT26", categoria:"alimento", titulo:"Trigo — actividad cultural Kachila Antu", organismo:"I. Municipalidad de Lampa", comuna:"Lampa", presupuesto:300000, cierre:"2026-08-07T10:00:00"},
+  {codigo:"5067-1892-COT26", categoria:"café", titulo:"Insumos coffee break DMCC (café, galletas, jugos)", organismo:"Universidad de Santiago de Chile", comuna:"Estación Central", presupuesto:302500, cierre:"2026-08-07T13:30:00"},
+  {codigo:"5871-3-COT26", categoria:"oficina", titulo:"WD 4381 — Artículos de oficina", organismo:"Universidad de Chile (FEN)", comuna:"Santiago", presupuesto:111050, cierre:"2026-08-08T10:00:00"},
+  {codigo:"2701-506-COT26", categoria:"oficina", titulo:"Materiales de oficina (cinta doble contacto) RRPP", organismo:"I. Municipalidad de Talagante", comuna:"Talagante", presupuesto:100000, cierre:"2026-08-08T11:00:00"},
+  {codigo:"2273-675-COT26", categoria:"oficina", titulo:"Materiales de oficina SENDA Previene (tóner/drum)", organismo:"I. Municipalidad de La Pintana", comuna:"La Pintana", presupuesto:183757, cierre:"2026-08-10T11:05:00"},
+  {codigo:"2343-358-COT26", categoria:"oficina", titulo:"Materiales de aseo y oficina Ped.985", organismo:"I. Municipalidad de Santiago", comuna:"Santiago", presupuesto:300000, cierre:"2026-08-10T12:30:00"},
+  {codigo:"2412-373-COT26", categoria:"oficina", titulo:"Materiales de oficina (Exp. N°13683)", organismo:"I. Municipalidad de Lo Prado", comuna:"Lo Prado", presupuesto:90000, cierre:"2026-08-10T15:00:00"},
+  {codigo:"883-157-COT26", categoria:"oficina", titulo:"Láminas pouch termolaminado tipo sobre", organismo:"Dirección General de Aeronáutica Civil", comuna:"Pudahuel", presupuesto:179095, cierre:"2026-08-12T11:00:00"},
+  {codigo:"4449-16-COT26", categoria:"oficina", titulo:"Materiales de oficina — Bibliotecas Penitenciarias", organismo:"Servicio Nacional del Patrimonio Cultural", comuna:"Santiago", presupuesto:500000, cierre:"2026-08-14T16:00:00"},
+  {codigo:"1411-901-COT26", categoria:"oficina", titulo:"Artículos de oficina — CRS Santiago", organismo:"Gendarmería — Dir. Regional Metropolitana", comuna:"Santiago", presupuesto:188000, cierre:"2026-08-07T11:30:00"},
+  {codigo:"2432-578-COT26", categoria:"oficina", titulo:"Materiales de oficina — Prog. Promoción de Salud", organismo:"I. Municipalidad de Estación Central", comuna:"Estación Central", presupuesto:398119, cierre:"2026-08-07T12:16:00"},
+  {codigo:"2765-385-COT26", categoria:"oficina", titulo:"Artículos de oficina", organismo:"I. Municipalidad de La Cisterna", comuna:"La Cisterna", presupuesto:400000, cierre:"2026-08-07T14:00:00"},
+  {codigo:"5548-123-COT26", categoria:"oficina", titulo:"Dispositivos de oficina (teclado/mouse, alzapantallas)", organismo:"Universidad de Chile", comuna:"Ñuñoa", presupuesto:300000, cierre:"2026-08-07T17:00:00"},
+  {codigo:"5067-1913-COT26", categoria:"oficina", titulo:"Artículos de oficina CEPEC (papel/aseo)", organismo:"Universidad de Santiago de Chile", comuna:"Las Condes", presupuesto:457400, cierre:"2026-08-07T18:00:00"},
 ];
 
 // Familias para consolidación (orden de apilado: pesados abajo, frágiles arriba)
@@ -514,14 +519,14 @@ function switchView(v){
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.getAttribute("data-view")===v));
   document.getElementById("view-opps").style.display = v==="opps"?"":"none";
   document.getElementById("view-lic").style.display = v==="lic"?"":"none";
-  document.getElementById("snapshotBadge").textContent = v==="opps" ? "Oportunidades: 05-08-2026 · Solo RM" : "Operación · "+LIC_SEED.length+" licitaciones ingresadas";
+  document.getElementById("snapshotBadge").textContent = v==="opps" ? "Oportunidades: 07-08-2026 · Solo RM" : "Operación · "+LIC_SEED.length+" licitaciones ingresadas";
   if(v==="lic"){ renderLicKpis(); renderLicList(); }
 }
 function closeOverlay(){ document.getElementById("overlay").classList.remove("show"); }
 document.getElementById("overlay").addEventListener("click",e=>{ if(e.target.id==="overlay") closeOverlay(); });
 
 document.getElementById("footer").innerHTML=`
-  <p><b>Cómo funciona:</b> la pestaña <b>Oportunidades</b> son licitaciones de Compra Ágil RM a cotizar (snapshot 05-08-2026, se actualiza a pedido). La pestaña <b>Mis licitaciones</b> es tu registro: marca cada una como <b>Ganada</b> o <b>Perdida</b>. Si ganas, abre la <b>hoja de ruta</b> (picking → armado de cajas por familia/peso → etiquetas imprimibles → avance). Si pierdes, abre el <b>análisis</b> con la diferencia vs el ganador y las causas.</p>
+  <p><b>Cómo funciona:</b> la pestaña <b>Oportunidades</b> son licitaciones de Compra Ágil RM a cotizar (snapshot 07-08-2026, se actualiza a pedido). La pestaña <b>Mis licitaciones</b> es tu registro: marca cada una como <b>Ganada</b> o <b>Perdida</b>. Si ganas, abre la <b>hoja de ruta</b> (picking → armado de cajas por familia/peso → etiquetas imprimibles → avance). Si pierdes, abre el <b>análisis</b> con la diferencia vs el ganador y las causas.</p>
   <p class="legend-note"><b>Consolidación de cajas:</b> el criterio sugerido agrupa por familia (líquidos y azúcar abajo, frágiles en cajas propias y arriba), con tope de ${MAX_KG} kg por caja. Los pesos son estimados editables — pídeme ajustarlos si tienes los reales.</p>
   <p class="legend-note">Los datos de tu registro (estados, avance, análisis) se guardan en este navegador. En el link compartido cada persona ve su propia copia local.</p>`;
 
